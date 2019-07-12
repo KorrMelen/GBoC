@@ -4,6 +4,40 @@
     }catch (Exception $e){
         die('Erreur : ' . $e->getMessage());
     }
+
+    function modif($bdd){
+        $req = $bdd->prepare('UPDATE benevoles SET nom=:nom, prenom=:prenom, numerotel=:numeroTel, mail=:mail WHERE id=:id');
+        $req->execute(array(
+            'id' => $_SESSION['uuid'],
+            'nom' => $_POST['nom'],
+            'prenom' => $_POST['prenom'],
+            'numeroTel' => $_POST['tel'],
+            'mail' => $_POST['mail']
+        ));
+        //$commissions = $bdd->query('SELECT nom FROM commissions WHERE \''.$_SESSION['uuid'].'\' = ANY (listbenevoles) OR \''.$_SESSION['uuid'].'\' = ANY (benevoles_attente)');
+        $allcommissions = $bdd->query('SELECT * FROM commissions');
+        $addcom = $bdd->prepare('UPDATE commissions SET benevoles_attente = array_append(benevoles_attente, :uuid) WHERE id=:id');
+        $removecom = $bdd->prepare('UPDATE commissions SET benevoles_attente = array_remove(benevoles_attente, :uuid), listbenevoles = array_remove(listbenevoles, :uuid) WHERE id=:id');
+        while($comm = $allcommissions->fetch()){
+            if(isset($_POST[$comm['nom']])){
+                if(!in_array($_SESSION['uuid'], explode(",",substr($comm['listbenevoles'],1,-1))) && !in_array($_SESSION['uuid'], explode(",",substr($comm['benevoles_attente'],1,-1)))){
+                    $addcom->execute(array(
+                        'uuid' =>$_SESSION['uuid'],
+                        'id' => $comm['id']
+                    ));
+                }
+            }else{
+                if(in_array($_SESSION['uuid'], explode(",",substr($comm['listbenevoles'],1,-1))) || in_array($_SESSION['uuid'], explode(",",substr($comm['benevoles_attente'],1,-1)))){
+                    $removecom->execute(array(
+                        'uuid' =>$_SESSION['uuid'],
+                        'id' => $comm['id']
+                    ));
+                }
+            }
+        }
+        header('location: donnees_perso.php?statut=reussi');
+    }
+
     $reponse = $bdd->query('SELECT * FROM benevoles WHERE id=\''.$_SESSION['uuid'].'\'');
     if($reponse->rowCount() == 0){
         header('location: accueil.php');
@@ -20,27 +54,11 @@
                         header('location: donnees_perso.php?nom='.str_replace(' ','+',$_POST['nom']).'&prenom='.$_POST['prenom'].'&ndate='.$_POST['ndate'].'&error=mailexsit');
                     }
                 }else{
-                    $req = $bdd->prepare('UPDATE benevoles SET nom=:nom, prenom=:prenom, numerotel=:numeroTel, mail=:mail WHERE id=:id');
-                    $req->execute(array(
-                        'id' => $_SESSION['uuid'],
-                        'nom' => $_POST['nom'],
-                        'prenom' => $_POST['prenom'],
-                        'numeroTel' => $_POST['tel'],
-                        'mail' => $_POST['mail']
-                    ));
-                    header('location: donnees_perso.php?statut=reussi');
+                   modif($bdd);
                 }
                 $mailexist->closeCursor();
             }else{
-                $req = $bdd->prepare('UPDATE benevoles SET nom=:nom, prenom=:prenom, numerotel=:numeroTel, mail=:mail WHERE id=:id');
-                $req->execute(array(
-                    'id' => $_SESSION['uuid'],
-                    'nom' => $_POST['nom'],
-                    'prenom' => $_POST['prenom'],
-                    'numeroTel' => $_POST['tel'],
-                    'mail' => $_POST['mail']
-                ));
-                header('location: donnees_perso.php?statut=reussi');
+                modif($bdd);
             }
         }else{
             if($_POST['newmp'] != $_POST['newmp2']){

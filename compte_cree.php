@@ -62,6 +62,17 @@
                     'mail' => $_POST['mail1'],
                     'password' => $_POST['password1']
                 ));
+                $commissions = $bdd->query('SELECT * FROM commissions');
+                $addcom = $bdd->prepare('UPDATE commissions SET benevoles_attente = array_append(benevoles_attente, :uuid) WHERE id=:id');
+                while($comm = $commissions->fetch()){
+                    if(isset($_POST[$comm['nom']])){
+                        $addcom->execute(array(
+                            'uuid' =>$uuid,
+                            'id' => $comm['id']
+                        ));
+                    }
+                }
+
             }
             $reponse->closeCursor();
         }

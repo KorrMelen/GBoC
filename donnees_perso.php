@@ -41,7 +41,7 @@
             Participation aux commissions :<br>
             <?php $commissions = $bdd->query('SELECT * FROM commissions');
             while($com = $commissions->fetch()){
-                echo '<input type="checkbox" name ="'.$com['nom'].'"'; if(in_array($_SESSION['uuid'], explode(",",substr($com['listbenevoles'],1,-1)), $strict = FALSE)) echo "checked=\"\""; echo '>'.$com['nom'].'<br>';
+                echo '<input type="checkbox" name ="'.$com['nom'].'"'; if(in_array($_SESSION['uuid'], explode(",",substr($com['listbenevoles'],1,-1))) || in_array($_SESSION['uuid'], explode(",",substr($com['benevoles_attente'],1,-1)))) echo "checked=\"\""; echo '>'.$com['nom'].'<br>';
             }?>
             <input type="submit" value="Modifier mes informations">
         </form>
