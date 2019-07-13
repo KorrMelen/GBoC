@@ -7,6 +7,7 @@ DROP TABLE taches;
 DROP TABLE evenements;
 DROP TABLE commissions;
 DROP TABLE benevoles;
+DROP TABLE messages;
 
 -- Enum --
 
@@ -19,18 +20,18 @@ CREATE TABLE IF NOT EXISTS benevoles(
     nom		        TEXT	NOT NULL,
     prenom	        TEXT	NOT NULL,
     dateNaissance   DATE	NOT NULL,
-    numeroTel	    INT,
+    numeroTel	    TEXT,
     mail            TEXT    UNIQUE NOT NULL,
     password        TEXT    NOT NULL,
     role	        role	NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS commissions(
-    id		            UUID	PRIMARY KEY,
-    nom		            TEXT	UNIQUE NOT NULL,
-    moderateur	        UUID	REFERENCES benevoles(id) NOT NULL,
-    listBenevoles       UUID[],
-    benevoles_attente   UUID[]
+    id		           UUID 	PRIMARY KEY,
+    nom		           TEXT	    UNIQUE NOT NULL,
+    moderateurs	       UUID[]	NOT NULL,
+    listBenevoles      UUID[],
+    benevolesAttente   UUID[]
 );
 
 CREATE TABLE IF NOT EXISTS evenements(
@@ -57,4 +58,11 @@ CREATE TABLE IF NOT EXISTS taches(
     nbBeneAttente   INTEGER	    DEFAULT 3,
     beneInscrit	    UUID[],
     beneAttente	    UUID[]
+);
+
+CREATE TABLE IF NOT EXISTS messages(
+    id              UUID        PRIMARY KEY,
+    emissaire       UUID        REFERENCES benevoles(id) NOT NULL,
+    destinataire    UUID        REFERENCES taches(id) NOT NULL,
+    dateHeure       timestamptz NOT NULL
 );

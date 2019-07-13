@@ -4,9 +4,6 @@
 	}catch (Exception $e){
         die('Erreur : ' . $e->getMessage());
 	}
-    $check = $bdd->prepare('SELECT role FROM benevoles WHERE id=:id');
-    $check->execute(array('id'=> $_SESSION['uuid']));
-    $check = $check->fetch();
 ?>
 
 <nav id="menu">        
@@ -14,7 +11,7 @@
         <h3>Titre menu</h3>
         <ul>
             <li><a href="evenement_benevole.php">Mes événements à venir</a></li>
-            <?php if($check['role'] == 'ADMIN'){
+            <?php if($_SESSION['role'] == 'ADMIN'){
             	echo "<li><a href='liste_all_benevoles.php'>Liste des bénévoles</a></li>
             	<li><a href='liste_commissions.php'>Liste des commissions</a></li>";
         	}?>

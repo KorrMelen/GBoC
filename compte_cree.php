@@ -1,5 +1,9 @@
-<!DOCTYPE html>
 <?php
+    try{
+        $bdd = new PDO('pgsql:host=localhost;port=5432;dbname=gboc;user=super_admin;password=super_admin');
+    }catch (Exception $e){
+        die('Erreur : ' . $e->getMessage());
+    }
     function uuid(){
         return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             mt_rand(0, 0xffff), mt_rand(0, 0xffff),
@@ -10,40 +14,25 @@
         );
     }
 ?>
+
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <title>GBoC - compte creé</title>
     </head>
- 
     <body>
- 
-    <!-- L'en-tête -->
-    
-    <header>
-       
-    </header>
-    
-    <!-- Le menu -->
-    <!-- Le corps -->
     <?php
         if($_POST['mail1'] != $_POST['mail2'] || $_POST['password1'] != $_POST['password2']){
             if (isset($_POST['tel'])) {
                 header('location: creer_compte.php?nom='.str_replace(' ','+',$_POST['nom']).'&prenom='.$_POST['prenom'].'&mail1='.$_POST['mail1'].'&tel='.str_replace(' ','+',$_POST['tel']).'&ndate='.$_POST['ndate'].'&error=notsame');
             }else{
                 header('location: creer_compte.php?nom='.str_replace(' ','+',$_POST['nom']).'&prenom='.$_POST['prenom'].'&mail1='.$_POST['mail1'].'&ndate='.$_POST['ndate'].'&error=notsame');
-            }
-            
+            }            
         }else{
-            try{
-                $bdd = new PDO('pgsql:host=localhost;port=5432;dbname=gboc;user=super_admin;password=super_admin');
-            }catch (Exception $e){
-                die('Erreur : ' . $e->getMessage());
-            }
-
-            $reponse = $bdd->prepare('SELECT * FROM benevoles WHERE mail=:mail');
-            $reponse->execute(array('mail'=>$_POST['mail1']));
-            if($reponse->rowCount() > 0){
+            $benevoles = $bdd->prepare('SELECT * FROM benevoles WHERE mail=:mail');
+            $benevoles->execute(array('mail'=>$_POST['mail1']));
+            if($benevoles->rowCount() > 0){
                 if (isset($_POST['tel'])) {
                     header('location: creer_compte.php?nom='.str_replace(' ','+',$_POST['nom']).'&prenom='.$_POST['prenom'].'&tel='.str_replace(' ','+',$_POST['tel']).'&ndate='.$_POST['ndate'].'&error=mailexist');
                 }else{
@@ -52,29 +41,28 @@
             }else{
                 $_POST['password1'] = password_hash($_POST['password1'], PASSWORD_BCRYPT);
                 $uuid = uuid();
-                $req = $bdd->prepare('INSERT INTO "benevoles" VALUES(:id,:nom,:prenom,:dateNaissance,:numeroTel,:mail,:password,\'BENEVOLE\')');
-                $req->execute(array(
+                $addbenevoles = $bdd->prepare('INSERT INTO "benevoles" VALUES(:id,:nom,:prenom,:dateNaissance,:numeroTel,:mail,:password,\'BENEVOLE\')');
+                $addbenevoles->execute(array(
                     'id' => $uuid,
-                    'nom' => $_POST['nom'],
-                    'prenom' => $_POST['prenom'],
+                    'nom' => strtoupper($_POST['nom']),
+                    'prenom' =>ucwords ($_POST['prenom']," -'_/"),
                     'dateNaissance' => $_POST['ndate'],
                     'numeroTel' => $_POST['tel'],
                     'mail' => $_POST['mail1'],
                     'password' => $_POST['password1']
                 ));
                 $commissions = $bdd->query('SELECT * FROM commissions');
-                $addcom = $bdd->prepare('UPDATE commissions SET benevoles_attente = array_append(benevoles_attente, :uuid) WHERE id=:id');
-                while($comm = $commissions->fetch()){
-                    if(isset($_POST[$comm['nom']])){
+                $addcom = $bdd->prepare('UPDATE commissions SET benevolesattente = array_append(benevolesattente, :uuid) WHERE id=:id');
+                while($donnees_comms = $commissions->fetch()){
+                    if(isset($_POST[$donnees_comms['nom']])){
                         $addcom->execute(array(
                             'uuid' =>$uuid,
-                            'id' => $comm['id']
+                            'id' => $donnees_comms['id']
                         ));
                     }
                 }
-
             }
-            $reponse->closeCursor();
+            $benevoles->closeCursor();
         }
     ?>
     <div id="corps">

@@ -16,18 +16,18 @@
         ));
         //$commissions = $bdd->query('SELECT nom FROM commissions WHERE \''.$_SESSION['uuid'].'\' = ANY (listbenevoles) OR \''.$_SESSION['uuid'].'\' = ANY (benevoles_attente)');
         $allcommissions = $bdd->query('SELECT * FROM commissions');
-        $addcom = $bdd->prepare('UPDATE commissions SET benevoles_attente = array_append(benevoles_attente, :uuid) WHERE id=:id');
-        $removecom = $bdd->prepare('UPDATE commissions SET benevoles_attente = array_remove(benevoles_attente, :uuid), listbenevoles = array_remove(listbenevoles, :uuid) WHERE id=:id');
+        $addcom = $bdd->prepare('UPDATE commissions SET benevolesattente = array_append(benevolesattente, :uuid) WHERE id=:id');
+        $removecom = $bdd->prepare('UPDATE commissions SET benevolesattente = array_remove(benevolesattente, :uuid), listbenevoles = array_remove(listbenevoles, :uuid) WHERE id=:id');
         while($comm = $allcommissions->fetch()){
             if(isset($_POST[$comm['nom']])){
-                if(!in_array($_SESSION['uuid'], explode(",",substr($comm['listbenevoles'],1,-1))) && !in_array($_SESSION['uuid'], explode(",",substr($comm['benevoles_attente'],1,-1)))){
+                if(!in_array($_SESSION['uuid'], explode(",",substr($comm['listbenevoles'],1,-1))) && !in_array($_SESSION['uuid'], explode(",",substr($comm['benevolesattente'],1,-1)))){
                     $addcom->execute(array(
                         'uuid' =>$_SESSION['uuid'],
                         'id' => $comm['id']
                     ));
                 }
             }else{
-                if(in_array($_SESSION['uuid'], explode(",",substr($comm['listbenevoles'],1,-1))) || in_array($_SESSION['uuid'], explode(",",substr($comm['benevoles_attente'],1,-1)))){
+                if(in_array($_SESSION['uuid'], explode(",",substr($comm['listbenevoles'],1,-1))) || in_array($_SESSION['uuid'], explode(",",substr($comm['benevolesattente'],1,-1)))){
                     $removecom->execute(array(
                         'uuid' =>$_SESSION['uuid'],
                         'id' => $comm['id']

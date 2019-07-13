@@ -7,11 +7,7 @@
         }catch (Exception $e){
             die('Erreur : ' . $e->getMessage());
         }
-        $check = $bdd->prepare('SELECT role FROM benevoles WHERE id=:id');
-        $check->execute(array('id'=> $_SESSION['uuid']));
-        $check = $check->fetch();
-        if($check['role'] != 'ADMIN'){
-            echo $check['role'];
+        if($_SESSION['role'] != 'ADMIN'){
             echo 'Vous n\'avez pas les droits pour accéder à cette page';
         }else{
             $reponse = $bdd->prepare('UPDATE benevoles SET role=:role WHERE id=:id');
@@ -21,16 +17,3 @@
         }
     }
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title></title>
-    </head>
-    <body>
-        <header> 
-        </header>
-        <footer id="pied_de_page">
-        </footer>
-    </body>
-</html>

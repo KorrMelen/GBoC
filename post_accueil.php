@@ -4,16 +4,23 @@
     }catch (Exception $e){
         die('Erreur : ' . $e->getMessage());
     }
-    $reponse = $bdd->prepare('SELECT * FROM benevoles WHERE mail=:mail');
-    $reponse->execute(array('mail'=>$_POST['mail']));
-    if($reponse->rowCount() == 0){
+    $benevoles = $bdd->prepare('SELECT * FROM benevoles WHERE mail=:mail');
+    $benevoles->execute(array('mail'=>$_POST['mail']));
+    if($benevoles->rowCount() == 0){
         header('location: accueil.php?error=mailnotexist');
     }else{
-        $donne = $reponse->fetch();
-        if(!password_verify($_POST['password'],$donne['password'])){
+        $donnees_bene = $benevoles->fetch();
+        if(!password_verify($_POST['password'],$donnees_bene['password'])){
             header('location: accueil.php?mail='.$_POST['mail'].'&error=password');
         }else{
-            $_SESSION['uuid'] = $donne['id'];
+            $_SESSION['uuid'] = $donnees_bene['id'];
+            $_SESSION['role'] = $donnees_bene['role'];
+            /*if($donnees_bene['role'] == "MODERATEUR"){
+                $commission = $bdd->prepare('SELECT id FROM commissions WHERE :moderateur = ANY(moderateurs)');
+                $commission->execute(array('moderateur'=>$donnees_bene['id']));
+                $commission = $commission->fetch();
+                $_SESSION['commission'] = $commission['id'];
+            }*/
             header('location: evenement_benevole.php');
             setcookie('mail', '', time(), null, null, false, true);
             setcookie('password', '', time(), null, null, false, true);
@@ -34,9 +41,6 @@
         <title></title>
     </head>
     <body>
-        <header> 
-        </header>
-        <footer id="pied_de_page">
-        </footer>
+        <footer id="pied_de_page"></footer>
     </body>
 </html>

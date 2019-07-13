@@ -7,68 +7,54 @@
         }catch (Exception $e){
             die('Erreur : ' . $e->getMessage());
         }
-        $check = $bdd->prepare('SELECT role FROM benevoles WHERE id=:id');
-        $check->execute(array('id'=> $_SESSION['uuid']));
-        $check = $check->fetch();
-        if($check['role'] != 'ADMIN'){
-            echo $check['role'];
+        if($_SESSION['role'] != 'ADMIN'){
             echo 'Vous n\'avez pas les droits pour accéder à cette page';
         }else{
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title>GBoC - Liste des commissions</title>
-    </head>
- 
-    <body>
- 
-    <!-- L'en-tête -->
-    
-    <header>
-       
-    </header>
-    
-    <!-- Le menu -->
-    <?php include("menus.php"); ?>
-    <!-- Le corps -->
-    <div id="corps">
-    <h1>Liste des commissions</h1>
-    <table>
-        <tr>
-            <td>Nom</td>
-            <td>Chargé de commission</td>
-            <td>Mail</td>
-            <td>Numero de Téléphone</td>
-        </tr>
-    <?php
-    $reponse = $bdd->query('SELECT id, nom, moderateur FROM commissions');
-            while($donnees = $reponse->fetch()){
-                $moderateur = $bdd->query('SELECT id, nom, prenom, mail, numerotel FROM benevoles WHERE id = \''.$donnees['moderateur'].'\'');
-                $modo = $moderateur->fetch();?>
-                <tr>
-                    <td><?php echo $donnees['nom']?></td>
-                    <td><?php echo "<font style=\"text-transform: uppercase;\">".$modo['nom'].'</font> <font style="text-transform: capitalize;">'.$modo['prenom'].'</font>'?></td>
-                    <td><?php echo $modo['mail']?></td>
-                    <td><?php echo $modo['numerotel']?></td>
-                    <td><form method="post" action="liste_all_benevoles.php">
-                        <input type="hidden" name="id" value=<?php echo'"'.$donnees['id'].'"'?>>
-                        <input type="submit" value="voir la liste des bénévoles participant">
-                    </form></td>
-                </tr><?php
-            }
-            $reponse->closeCursor();
+            <!DOCTYPE html>
+            <html>
+                <head>
+                    <meta charset="utf-8" />
+                    <title>GBoC - Liste des commissions</title>
+                </head>
+                <body>
+                    <?php include("menus.php"); ?>
+                    <div id="corps">
+                        <h1>Liste des commissions</h1>
+                        <table>
+                            <tr>
+                                <td>Nom</td>
+                                <td>Chargé de commission</td>
+                                <td>Mail</td>
+                                <td>Numero de Téléphone</td>
+                            </tr>
+                            <?php
+                            $commissions = $bdd->query('SELECT id, nom, moderateurs FROM commissions');
+                            while($donnees_comms = $commissions->fetch()){
+                                $moderateurs = $bdd->query('SELECT b.id, b.nom, prenom, mail, numerotel FROM benevoles AS b, commissions AS C WHERE c.nom =\''.$donnees_comms['nom'].'\' AND b.id = ANY (moderateurs)');
+                                $moderateurs = $moderateurs->fetchall();
+                                ?>
+                                <tr>
+                                    <td><?php echo $donnees_comms['nom']?></td>
+                                    <td><?php echo $moderateurs[0]['nom'].' '.$moderateurs[0]['prenom'];
+                                    for($i=1; $i<sizeof($moderateurs); $i++) echo '<br>'.$moderateurs[$i]['nom'].' '.$moderateurs[$i]['prenom']?></td>
+                                    <td><?php echo $moderateurs[0]['mail'];
+                                    for($i=1; $i<sizeof($moderateurs); $i++) echo '<br>'.$moderateurs[$i]['mail']?></td>
+                                    <td><?php echo $moderateurs[0]['numerotel'];
+                                    for($i=1; $i<sizeof($moderateurs); $i++) echo '<br>'.$moderateurs[$i]['numerotel']?></td>
+                                    <td><form method="post" action="liste_all_benevoles.php">
+                                        <input type="hidden" name="id" value=<?php echo'"'.$donnees_comms['id'].'"'?>>
+                                        <input type="submit" value="voir la liste des bénévoles participant">
+                                    </form></td>
+                                </tr><?php
+                            }
+                            $commissions->closeCursor(); ?>
+                        </table>
+                    </div>
+                    <footer id="pied_de_page"></footer>
+                </body>
+            </html>
+            <?php
         }
     }
-    ?>
-
-    </div>
-    
-    <!-- Le pied de page -->
-    
-    <footer id="pied_de_page">
-    </footer>
-    
-    </body>
-</html>
+?>
