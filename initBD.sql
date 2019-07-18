@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS commissions(
     nom		           TEXT	    UNIQUE NOT NULL,
     moderateurs	       UUID[]	NOT NULL,
     listBenevoles      UUID[],
-    benevolesAttente   UUID[]
+    benevolesAttente   UUID[],
+    active             BOOLEAN  DEFAULT TRUE
 );
 
 CREATE TABLE IF NOT EXISTS evenements(

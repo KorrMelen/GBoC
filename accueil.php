@@ -25,7 +25,7 @@
             <?php 
                 if(isset($_GET['error'])){
                     if ($_GET['error'] == "mailnotexist") {
-                        echo "Cette adresse mail n'est déjà enregistrée. Une erreur dans l'adresse? Compte pas créé?";
+                        echo "Cette adresse mail n'est pas enregistrée. Une erreur dans l'adresse? Compte pas créé?";
                     }else{
                         echo "Mot de passe incorrecte";
                     }

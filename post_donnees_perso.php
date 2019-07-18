@@ -1,9 +1,5 @@
 <?php session_start();
-    try{
-        $bdd = new PDO('pgsql:host=localhost;port=5432;dbname=gboc;user=super_admin;password=super_admin');
-    }catch (Exception $e){
-        die('Erreur : ' . $e->getMessage());
-    }
+    include("connection_bdd.php");
 
     function modif($bdd){
         $req = $bdd->prepare('UPDATE benevoles SET nom=:nom, prenom=:prenom, numerotel=:numeroTel, mail=:mail WHERE id=:id');
@@ -80,16 +76,3 @@
     }
     $reponse->closeCursor();
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title></title>
-    </head>
-    <body>
-        <header> 
-        </header>
-        <footer id="pied_de_page">
-        </footer>
-    </body>
-</html>

@@ -2,11 +2,7 @@
     if(!isset($_SESSION['uuid'])){
         header('location: accueil.php');
     }else{
-        try{
-            $bdd = new PDO('pgsql:host=localhost;port=5432;dbname=gboc;user=super_admin;password=super_admin');
-        }catch (Exception $e){
-            die('Erreur : ' . $e->getMessage());
-        }
+        include("connection_bdd.php");
         $reponse = $bdd->query('SELECT id, nom, prenom, datenaissance, numerotel, mail FROM benevoles WHERE id= \''.$_SESSION['uuid'].'\'');
         $donnees = $reponse->fetch()
 ?>
@@ -33,7 +29,7 @@
                         Date de naissance :<br>
                         <input type="date" name="ndate" required="" disabled="disabled" value= <?php echo '"'.$donnees['datenaissance'].'"'?> ><br>
                         Participation aux commissions :<br>
-                        <?php $commissions = $bdd->query('SELECT * FROM commissions');
+                        <?php $commissions = $bdd->query('SELECT * FROM commissions WHERE active');
                         while($com = $commissions->fetch()){
                             echo '<input type="checkbox" name ="'.$com['nom'].'"';
                             if(in_array($_SESSION['uuid'], explode(",",substr($com['listbenevoles'],1,-1))) || in_array($_SESSION['uuid'], explode(",",substr($com['benevolesattente'],1,-1)))) echo "checked=\"\""; echo '>'.$com['nom'].'<br>';

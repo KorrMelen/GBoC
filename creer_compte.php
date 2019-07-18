@@ -1,9 +1,5 @@
 <?php
-    try{
-        $bdd = new PDO('pgsql:host=localhost;port=5432;dbname=gboc;user=super_admin;password=super_admin');
-    }catch (Exception $e){
-        die('Erreur : ' . $e->getMessage());
-    }
+    include("connection_bdd.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,7 +32,7 @@
                 <input type="date" name="ndate" required="" <?php if(isset($_GET['ndate']))echo 'value='.$_GET['ndate'] ?> ><br>
                 Participation aux commissions :<br>
                 <?php
-                    $commissions = $bdd->query('SELECT * FROM commissions');
+                    $commissions = $bdd->query('SELECT * FROM commissions WHERE active');
                     while($donnees_comms = $commissions->fetch()){
                         echo '<input type="checkbox" name ="'.$donnees_comms['nom'].'">'.$donnees_comms['nom'].'<br>';
                     }

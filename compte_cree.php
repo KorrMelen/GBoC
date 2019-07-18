@@ -1,9 +1,5 @@
 <?php
-    try{
-        $bdd = new PDO('pgsql:host=localhost;port=5432;dbname=gboc;user=super_admin;password=super_admin');
-    }catch (Exception $e){
-        die('Erreur : ' . $e->getMessage());
-    }
+    include("connection_bdd.php");
     function uuid(){
         return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             mt_rand(0, 0xffff), mt_rand(0, 0xffff),
