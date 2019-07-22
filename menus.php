@@ -29,6 +29,7 @@
             	echo "<ul>";
             	echo "<li><a href='liste_all_benevoles.php'>Liste des bénévoles</a></li>";
             	echo "<li><a href='liste_commissions.php'>Liste des commissions</a></li>";
+            	echo "<li><a href='liste_evenements.php'>Liste des événements</a></li>";
             	echo "</ul>";
         	}?>
             <li><a href="deco.php">Déconnexion</a></li>
