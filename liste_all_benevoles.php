@@ -37,7 +37,7 @@
                                         <td><?php echo $donnees_bene['prenom']?></td>
                                         <td><?php echo $donnees_bene['mail']?></td>
                                         <td><?php echo $donnees_bene['numerotel']?></td>
-                                        <td><?php echo $donnees_bene['datenaissance']?></td>
+                                        <td><?php echo date("d/m/Y", strtotime($donnees_bene['datenaissance']))?></td>
                                         <td><?php $donnees_comms = $commissions->fetch();
                                         echo $donnees_comms['nom'];
                                         while($donnees_comms = $commissions->fetch()) echo ', '.$donnees_comms['nom']?></td>

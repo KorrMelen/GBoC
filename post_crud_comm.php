@@ -33,8 +33,10 @@
                 $moderateur = explode(" ",$_POST['moderateur']);
                 $moderateur = substr($moderateur[count($moderateur)-1],1,-1);
                 $moderateur = $bdd->query('SELECT id FROM benevoles WHERE mail=\''.$moderateur.'\'');
+                $commission = $bdd->query('SELECT active FROM commissions WHERE id=\''.$_POST['id_comm'].'\'');
+                $commission = $commission->fetch();
                 $moderateur = $moderateur->fetch();
-                $edit_role = $bdd->query('UPDATE benevoles SET role=\'MODERATEUR\' WHERE id=\''.$moderateur['id'].'\'');
+                if($commission['active']) $edit_role = $bdd->query('UPDATE benevoles SET role=\'MODERATEUR\' WHERE id=\''.$moderateur['id'].'\'');
                 $addmodo = $bdd->query('UPDATE commissions SET moderateurs = array_append(moderateurs,\''.$moderateur['id'] .'\') WHERE id=\''.$_POST['id_comm'].'\'');
             }
             if(isset($_POST['desactive_comm'])){
@@ -50,7 +52,7 @@
                 $removemodo = $bdd->query('UPDATE commissions SET moderateurs = array_remove(moderateurs,\''.$_POST['id_modo'] .'\') WHERE id=\''.$_POST['id_comm'].'\'');
                 $edit_role = $bdd->query('UPDATE benevoles SET role=\'BENEVOLE\' WHERE id IN (SELECT id FROM benevoles WHERE role=\'MODERATEUR\' and id=\''.$_POST['id_modo'].'\' EXCEPT SELECT b.id FROM benevoles AS b, commissions AS c WHERE c.id !=\''.$_POST['id_comm'].'\' AND b.id = ANY (moderateurs))');
             }
-            header('location: liste_commissions.php');
+            header('location:'. $_SERVER['HTTP_REFERER']);
         }
     }
 ?>

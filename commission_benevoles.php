@@ -39,7 +39,7 @@
                                     <td><?php echo $donnees_benevole['prenom']?></td>
                                     <td><?php echo $donnees_benevole['mail']?></td>
                                     <td><?php echo $donnees_benevole['numerotel']?></td>
-                                    <td><?php echo $donnees_benevole['datenaissance']?></td>
+                                    <td><?php echo date("d/m/Y", strtotime($donnees_benevole['datenaissance']))?></td>
                                     <td><?php $donnees_comms = $commissions->fetch();
                                     echo $donnees_comms['nom'];
                                     while($donnees_comms = $commissions->fetch()) echo ', '.$donnees_comms['nom']?></td>
@@ -71,7 +71,7 @@
                                     <td><?php echo $donnees_benevole['prenom']?></td>
                                     <td><?php echo $donnees_benevole['mail']?></td>
                                     <td><?php echo $donnees_benevole['numerotel']?></td>
-                                    <td><?php echo $donnees_benevole['datenaissance']?></td>
+                                    <td><?php echo date("d/m/Y", strtotime($donnees_benevole['datenaissance']))?></td>
                                     <td><?php $donnees_comms = $commissions->fetch();
                                     echo $donnees_comms['nom'];
                                     while($donnees_comms = $commissions->fetch()) echo ', '.$donnees_comms['nom']?></td>

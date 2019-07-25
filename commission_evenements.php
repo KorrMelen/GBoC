@@ -44,10 +44,8 @@
                                     <td>';
                                     $donnees_comms = $commissions->fetch();
                                         echo $donnees_comms['nom'];
-                                        while($donnees_comms = $commissions->fetch()) echo ', '.$donnees_comms['nom'].'</td>';
-                                    echo ' <td><form method="post" action="commission_taches.php">
-                                        <input type="hidden" name="id_comm" value="'.$_GET['id'].'">
-                                        <input type="hidden" name="id_comm" value="'.$donnees_event['id'].'">
+                                        while($donnees_comms = $commissions->fetch()) echo ', '.$donnees_comms['nom'];
+                                    echo '</td><td><form method="post" action="commission_taches.php?id_event='.$donnees_event['id'].'&id_comm='.$_GET['id'].'">
                                         <input type="submit" name="taches" value="Voire les tâches">
                                     </form>
                                 </tr>';
@@ -80,10 +78,10 @@
                                     <td>';
                                         $donnees_comms = $commissions->fetch();
                                         echo $donnees_comms['nom'];
-                                        while($donnees_comms = $commissions->fetch()) echo ', '.$donnees_comms['nom'].'</td>';
-                                echo ' <td><form method="post" action="commission_taches.php">
+                                        while($donnees_comms = $commissions->fetch()) echo ', '.$donnees_comms['nom'];
+                                echo '</td><td><form method="post" action="commission_taches.php">
                                         <input type="hidden" name="id_comm" value="'.$_GET['id'].'">
-                                        <input type="hidden" name="id_comm" value="'.$donnees_event['id'].'">
+                                        <input type="hidden" name="id_event" value="'.$donnees_event['id'].'">
                                         <input type="submit" name="taches" value="Voire les tâches">
                                     </form>
                                 </tr>';

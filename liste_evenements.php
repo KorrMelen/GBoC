@@ -70,8 +70,8 @@
                                     <td>';
                                     $donnees_comms = $commissions->fetch();
                                         echo $donnees_comms['nom'];
-                                        while($donnees_comms = $commissions->fetch()) echo ', '.$donnees_comms['nom'].'</td>';
-                                    echo '</tr>';
+                                        while($donnees_comms = $commissions->fetch()) echo ', '.$donnees_comms['nom'];
+                                    echo '</td></tr>';
                             }?>
                         </table>
                         <h3> Evénement passé</h3>
@@ -101,8 +101,8 @@
                                     <td>';
                                         $donnees_comms = $commissions->fetch();
                                         echo $donnees_comms['nom'];
-                                        while($donnees_comms = $commissions->fetch()) echo ', '.$donnees_comms['nom'].'</td>';
-                                echo '</tr>';
+                                        while($donnees_comms = $commissions->fetch()) echo ', '.$donnees_comms['nom'];
+                                echo '</td></tr>';
                             }?>
                         </table>
                     </div>
