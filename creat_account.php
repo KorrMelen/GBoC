@@ -1,5 +1,7 @@
 <?php
-    include("connection_bdd.php");
+    include("functions.php");
+    connecting_db();
+    $commissions = $db->query('SELECT * FROM commissions WHERE active');
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,7 +11,6 @@
     </head>
  
     <body>
-        <header></header>
         <div id="corps">
             <h1>Inscription au module de Gestion des Bénévoles Ou des Commissions</h1>
             
@@ -17,30 +18,29 @@
                 Pour vous inscrire au module de Gestion des bénévoles Ou des Commissions, veulliez communiquer les informations suivantes (les champs avec un * sont obligatoires) :<br />
             </p>
 
-            <form method="post" action="compte_cree.php">
+            <form method="post" action="post_create_account.php">
                 Nom de famille* :<br>
-                <input type="text" name="nom" required="" <?php if(isset($_GET['nom'])) echo 'value="'.str_replace('+',' ',$_GET['nom']).'"' ?> ><br>
+                <input type="text" name="name" required="" <?php if(isset($_GET['name'])) echo 'value="'.str_replace('+',' ',$_GET['name']).'"' ?> ><br>
                 Prénom* :<br>
-                <input type="text" name="prenom" required="" <?php if(isset($_GET['prenom']))echo 'value="'.$_GET['prenom'].'"' ?> ><br>
+                <input type="text" name="surname" required="" <?php if(isset($_GET['surname']))echo 'value="'.$_GET['surname'].'"' ?> ><br>
                 Adresse E-mail* :<br>
-                <input type="email" name="mail1" required="" <?php if(isset($_GET['mail1']))echo 'value="'.$_GET['mail1'].'"' ?> ><br>
+                <input type="email" name="mail" required="" <?php if(isset($_GET['mail']))echo 'value="'.$_GET['mail'].'"' ?> ><br>
                 répétez l\'adresse E-mail* :<br>
-                <input type="email" name="mail2" required=""><br>
-                Numéro de telephone :<br>
+                <input type="email" name="mail_repeated" required=""><br>
+                Numéro de telephone (0X XX XX XX XX):<br>
                 <input type="tel" name="tel" pattern="0[0-9]( [0-9]{2}){4}" <?php if(isset($_GET['tel']))echo 'value="'.str_replace('+',' ',$_GET['tel']).'"' ?> ><br>
                 Date de naissance* :<br>
-                <input type="date" name="ndate" required="" <?php if(isset($_GET['ndate']))echo 'value='.$_GET['ndate'] ?> ><br>
+                <input type="date" name="birth_date" required="" <?php if(isset($_GET['birth_date']))echo 'value='.$_GET['birth_date'] ?> ><br>
                 Participation aux commissions :<br>
                 <?php
-                    $commissions = $bdd->query('SELECT * FROM commissions WHERE active');
-                    while($donnees_comms = $commissions->fetch()){
-                        echo '<input type="checkbox" name ="'.$donnees_comms['nom'].'">'.$donnees_comms['nom'].'<br>';
+                    while($data_commission = $commissions->fetch()){
+                        echo '<input type="checkbox" name ="'.$data_commission['name_commission'].'">'.$data_commission['name_commission'].'<br>';
                     }
                 ?>
                 Mot de passe* :<br>
-                <input type="password" name="password1" required=""><br>
+                <input type="password" name="password" required=""><br>
                 Répétez le mot de passe* :<br>
-                <input type="password" name="password2" required=""><br>
+                <input type="password" name="password_repeated" required=""><br>
                 <input type="checkbox" name="charte" required=""> J'ai pris connaissance et j'accepte la <a href="charte.html" target="_blank">Charte d'utilisation</a><br>
                 <input type="submit" value="S'inscrire">
             </form>
@@ -53,8 +53,7 @@
                     }
                 }
             ?>
-            <a href="accueil.php">Retourner à la page de connexion</a><br>
+            <a href="reception.php">Retourner à la page de connexion</a><br>
         </div>
-        <footer id="pied_de_page"></footer>
     </body>
 </html>
