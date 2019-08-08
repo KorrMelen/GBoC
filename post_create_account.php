@@ -33,11 +33,6 @@
                 }
             }
             $commissions->closeCursor();
-            if($addvolunteer){
-                header('location: reception.php?error=account_created');
-            }else{
-                echo 'WHY?';
-            }
         }
         $volunteers->closeCursor();
     }

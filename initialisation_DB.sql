@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS events(
     id_event		    UUID		PRIMARY KEY,
     name_event		    TEXT		NOT NULL,
     info_event	        TEXT,
-    begin_time_event    timestamp NOT NULL,
-    end_time_event      timestamp NOT NULL,
+    begin_time_event    timestamp   NOT NULL,
+    end_time_event      timestamp   NOT NULL,
     places_event	    TEXT,
     expected_people   	INTEGER		DEFAULT 10,
     commissions         UUID[]
@@ -52,8 +52,8 @@ CREATE TABLE IF NOT EXISTS tasks(
     commission	            UUID 	    REFERENCES commissions(id_commission) NOT NULL,
     name_task		        TEXT	    NOT NULL,
     info_task	            TEXT,
-    begin_time_task	        timestamp NOT NULL,
-    end_time_task	        timestamp NOT NULL,
+    begin_time_task	        timestamp   NOT NULL,
+    end_time_task	        timestamp   NOT NULL,
     places_task	            TEXT,	    
     max_volunteers	        INTEGER	    NOT NULL,
     registered_volunteers   UUID[]
@@ -63,5 +63,6 @@ CREATE TABLE IF NOT EXISTS messages(
     id_message      UUID        PRIMARY KEY,
     messenger       UUID        REFERENCES volunteers(id_volunteer) NOT NULL,
     recipient       UUID        REFERENCES tasks(id_task) NOT NULL,
-    time_message    timestamp NOT NULL
+    time_message    timestamp   NOT NULL,
+    message         TEXT        NOT NULL
 );

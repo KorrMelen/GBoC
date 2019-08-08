@@ -31,6 +31,11 @@
                         <td><form method="post" action=<?php echo '"task.php?id_task='.$data_task['id_task'].'"'?>>
                             <input type="submit" name="task" value="Voir la tâche">
                         </form></td>
+                        <td><form method="post" action="post_crud_task.php">
+                            <input type="hidden" name="id_task" value=<?php echo'"'.$data_task['id_task'].'"'?>>
+                            <input type="hidden" name="id_volunteer" value=<?php echo'"'.$_SESSION['uuid'].'"'?>>
+                            <input type="submit" name="unsubscribe" value="Se désincrire de la tache">
+                        </form></td>
                     </tr>
                 <?php } ?>
             </table>
