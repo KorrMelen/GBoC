@@ -66,7 +66,7 @@
                             $data_event['commissions'] = str_replace('}', '\')', $data_event['commissions']);
                             $commissions = $db->query('SELECT id_commission, name_commission FROM commissions WHERE id_commission IN'.$data_event['commissions']);?>
                             <tr>
-                                <td><?php echo $data_event['name_event'] ?></td>
+                                <td><?php echo $data_event['name_event']?></td>
                                 <td><?php echo $data_event['info_event']?></td>
                                 <td><?php echo date("d/m/Y H:i", strtotime($data_event['begin_time_event']))?></td>
                                 <td><?php echo date("d/m/Y H:i", strtotime($data_event['end_time_event']))?></td>
@@ -101,20 +101,25 @@
                             $data_event['commissions'] = str_replace('{', '(\'', $data_event['commissions']);
                             $data_event['commissions'] = str_replace(',', '\',\'', $data_event['commissions']);
                             $data_event['commissions'] = str_replace('}', '\')', $data_event['commissions']);
-                            $commissions = $db->query('SELECT id_commission, name_commission FROM commissions WHERE id_commission IN'.$data_event['commissions']);
-                            echo '<tr>
-                                <td>'.$data_event['name_event'].'</td>
-                                <td>'.$data_event['info_event'].'</td>
-                                <td>'.date("d/m/Y H:i", strtotime($data_event['begin_time_event'])).'</td>
-                                <td>'.date("d/m/Y H:i", strtotime($data_event['end_time_event'])).'</td>
-                                <td>'.$data_event['places_event'].'</td>
-                                <td>'.$data_event['expected_people'].'</td>
-                                <td>';
+                            $commissions = $db->query('SELECT id_commission, name_commission FROM commissions WHERE id_commission IN'.$data_event['commissions']);?>
+                            <tr>
+                                <td><?php echo $data_event['name_event']?></td>
+                                <td><?php echo $data_event['info_event']?></td>
+                                <td><?php echo date("d/m/Y H:i", strtotime($data_event['begin_time_event']))?></td>
+                                <td><?php echo date("d/m/Y H:i", strtotime($data_event['end_time_event']))?></td>
+                                <td><?php echo $data_event['places_event']?></td>
+                                <td><?php echo $data_event['expected_people']?></td>
+                                <td>
+                                    <?php
                                     $data_commission = $commissions->fetch();
                                     echo $data_commission['name_commission'];
-                                    while($data_commission = $commissions->fetch()) echo ', '.$data_commission['name_commission'];
-                            echo '</td></tr>';
-                        }?>
+                                    while($data_commission = $commissions->fetch()) echo ', '.$data_commission['name_commission'];?>
+                                </td>
+                                <td><form method="post" action=<?php echo '"event_tasks.php?id='.$data_event['id_event'].'"';?>>
+                                    <input type="submit" value="Voire les tâches">
+                                </form></td>
+                            </tr>
+                        <?php } ?>
                     </table>
                 </div>
             </body>

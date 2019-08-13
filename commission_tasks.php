@@ -64,7 +64,7 @@
                             <td>Nombre de bénévole inscrits</td>
                         </tr>
                         <?php
-                        $tasks = $db->query('SELECT name_task, info_task, begin_time_task, end_time_task, places_task, max_volunteers, array_length(registered_volunteers,1) AS nb_volunteer FROM tasks WHERE event = \''.$_GET['id_event'].'\' AND commission = \''.$_GET['id_commission'].'\'');
+                        $tasks = $db->query('SELECT tasks.*, array_length(registered_volunteers,1) AS nb_volunteer FROM tasks WHERE event = \''.$_GET['id_event'].'\' AND commission = \''.$_GET['id_commission'].'\'');
                         while($data_task=$tasks->fetch()){
                             if($data_task['nb_volunteer'] == NULL) $data_task['nb_volunteer'] = 0?>
                             <tr>
@@ -75,32 +75,38 @@
                                 <td><?php echo $data_task['places_task']?></td>
                                 <td><?php echo $data_task['max_volunteers']?></td>
                                 <td><?php echo $data_task['nb_volunteer']?></td>
+                                <td><form method="post" action=<?php echo '"task?id_task='.$data_task['id_task'].'"'?>>
+                                    <input type="submit" value="Voir la tâche">
+                                </form></td>
                             </tr>
                         <?php } ?>
                     </table>
 
-                    <h3>Créer une nouvelle tâche pour l'événement</h3>
-                    <form method="post" action="post_crud_task.php" id="create_task">
-                        Nom de la tâche:<br>
-                        <input type="text" name="name" required=""<?php if(isset($_GET['name'])) echo 'value="'.str_replace('+',' ',$_GET['name']).'"' ?> ><br>
-                        Description de la tâche:<br>
-                        <textarea rows="4" cols="50" name="info" form="create_task"><?php if(isset($_GET['info'])) echo str_replace('+',' ',$_GET['info'])?></textarea><br>
-                        Date et heure de début:<br>
-                        <input type="date" name="begin_date" required=""<?php if(isset($_GET['begin_date'])) echo 'value="'.$_GET['begin_date'].'"' ?>>
-                        <input type="time" name="begin_time" required=""<?php if(isset($_GET['begin_time'])) echo 'value="'.$_GET['begin_time'].'"' ?>><br>
-                        Date et heure de fin:<br>
-                        <input type="date" name="end_date" required=""<?php if(isset($_GET['end_date'])) echo 'value="'.$_GET['end_date'].'"' ?>>
-                        <input type="time" name="end_time" required=""<?php if(isset($_GET['end_time'])) echo 'value="'.$_GET['end_time'].'"' ?>><br>
-                        Lieux de la tache (à la mission bretonne par défaut):<br>
-                        <input type="text" name="places"<?php if(isset($_GET['places'])) echo 'value="'.str_replace('+',' ',$_GET['places']).'"' ?> ><br>
-                        Nombre de bénévole:<br>
-                        <input type="number" name="max_volunteers" required=""<?php if(isset($_GET['max_volunteers'])) echo 'value="'.$_GET['max_volunteers'].'"' ?>><br>
-                        <input type="hidden" name="id_commission" value=<?php echo '"'.$_GET['id_commission'].'"'?>>
-                        <input type="hidden" name="id_event" value=<?php echo '"'.$event['id_event'].'"'?>>
-                        <input type="submit" name="create" value="Créer la tache">
-                    </form>
-                    <?php if(isset($_GET['error']) && $_GET['error'] == 'date'){
-                        echo "Attention, la atche se termine avant qu'elle ne commence";
+                    <?php if($event['end_time_event'] >= date("Y-m-d H:i")){ ?>
+
+                        <h3>Créer une nouvelle tâche pour l'événement</h3>
+                        <form method="post" action="post_crud_task.php" id="create_task">
+                            Nom de la tâche:<br>
+                            <input type="text" name="name" required=""<?php if(isset($_GET['name'])) echo 'value="'.str_replace('+',' ',$_GET['name']).'"' ?> ><br>
+                            Description de la tâche:<br>
+                            <textarea rows="4" cols="50" name="info" form="create_task"><?php if(isset($_GET['info'])) echo str_replace('+',' ',$_GET['info'])?></textarea><br>
+                            Date et heure de début:<br>
+                            <input type="date" name="begin_date" required=""<?php if(isset($_GET['begin_date'])) echo 'value="'.$_GET['begin_date'].'"' ?>>
+                            <input type="time" name="begin_time" required=""<?php if(isset($_GET['begin_time'])) echo 'value="'.$_GET['begin_time'].'"' ?>><br>
+                            Date et heure de fin:<br>
+                            <input type="date" name="end_date" required=""<?php if(isset($_GET['end_date'])) echo 'value="'.$_GET['end_date'].'"' ?>>
+                            <input type="time" name="end_time" required=""<?php if(isset($_GET['end_time'])) echo 'value="'.$_GET['end_time'].'"' ?>><br>
+                            Lieux de la tache (à la mission bretonne par défaut):<br>
+                            <input type="text" name="places"<?php if(isset($_GET['places'])) echo 'value="'.str_replace('+',' ',$_GET['places']).'"' ?> ><br>
+                            Nombre de bénévole:<br>
+                            <input type="number" name="max_volunteers" required=""<?php if(isset($_GET['max_volunteers'])) echo 'value="'.$_GET['max_volunteers'].'"' ?>><br>
+                            <input type="hidden" name="id_commission" value=<?php echo '"'.$_GET['id_commission'].'"'?>>
+                            <input type="hidden" name="id_event" value=<?php echo '"'.$event['id_event'].'"'?>>
+                            <input type="submit" name="create" value="Créer la tache">
+                        </form>
+                        <?php if(isset($_GET['error']) && $_GET['error'] == 'date'){
+                            echo "Attention, la atche se termine avant qu'elle ne commence";
+                        }
                     }?>
                 </div>
             </body>
