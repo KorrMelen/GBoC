@@ -61,7 +61,7 @@
                 echo "Vos nouvelles information on bien été enregistrées";
             } ?>
             <form method="post" action="unsubscribe.php">
-                <input type="submit" value="Se désincrire du site">
+                <input type="submit" value="Se désinscrire du site">
             </form>
         </div>
         <footer id="pied_de_page"></footer>   

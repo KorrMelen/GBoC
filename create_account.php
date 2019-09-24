@@ -15,7 +15,7 @@
             <h1>Inscription au module de Gestion des Bénévoles Ou des Commissions</h1>
             
             <p>
-                Pour vous inscrire au module de Gestion des bénévoles Ou des Commissions, veulliez communiquer les informations suivantes (les champs avec un * sont obligatoires) :<br />
+                Pour vous inscrire au module de Gestion des bénévoles Ou des Commissions, veuillez communiquer les informations suivantes (les champs avec un * sont obligatoires) :<br />
             </p>
 
             <form method="post" action="post_create_account.php">

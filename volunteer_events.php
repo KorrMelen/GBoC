@@ -23,7 +23,7 @@
                     <td>Description</td>
                     <td>Date et heure de début</td>
                     <td>Date et heure de fin</td>
-                    <td>Lieux</td>
+                    <td>Lieu(x)</td>
                 </tr>
                 <?php $events=$db->prepare('SELECT DISTINCT id_event, name_event, info_event, begin_time_event, end_time_event, places_event FROM events AS e, commissions AS c WHERE end_time_event > :today_date AND id_commission IN 
                     (SELECT id_commission FROM commissions WHERE :id_volunteer = ANY (volunteers)) AND id_commission = ANY (commissions)');
@@ -38,7 +38,7 @@
                         <td><?php echo date("d/m/Y H:i", strtotime($data_event['end_time_event'])) ?></td>
                         <td><?php echo $data_event['places_event'] ?></td>
                         <td><form method="post" action=<?php echo '"volunteer_tasks.php?id_event='.$data_event['id_event'].'"' ?>>
-                            <input type="submit" name="taches" value="Voire les tâches">
+                            <input type="submit" name="taches" value="Voir les tâches">
                         </form></td>
                     </tr>
                 <?php } ?>

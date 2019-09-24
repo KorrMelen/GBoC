@@ -29,7 +29,7 @@
                             <td>Description</td>
                             <td>Date et heure de début</td>
                             <td>Date et heure de fin</td>
-                            <td>Lieux</td>
+                            <td>Lieu(x)</td>
                             <td>Nombre de personne attendu</td>
                             <td>Commissions participantes</td>
                         </tr>
@@ -59,7 +59,7 @@
                             <td>Description</td>
                             <td>Date et heure de début</td>
                             <td>Date et heure de fin</td>
-                            <td>Lieux</td>
+                            <td>Lieu</td>
                             <td>Nombre de bénévoles max</td>
                             <td>Nombre de bénévole inscrits</td>
                         </tr>
@@ -96,13 +96,13 @@
                             Date et heure de fin:<br>
                             <input type="date" name="end_date" required=""<?php if(isset($_GET['end_date'])) echo 'value="'.$_GET['end_date'].'"' ?>>
                             <input type="time" name="end_time" required=""<?php if(isset($_GET['end_time'])) echo 'value="'.$_GET['end_time'].'"' ?>><br>
-                            Lieux de la tache (à la mission bretonne par défaut):<br>
+                            Lieu de la tache (à la mission bretonne par défaut):<br>
                             <input type="text" name="places"<?php if(isset($_GET['places'])) echo 'value="'.str_replace('+',' ',$_GET['places']).'"' ?> ><br>
                             Nombre de bénévole:<br>
                             <input type="number" name="max_volunteers" required=""<?php if(isset($_GET['max_volunteers'])) echo 'value="'.$_GET['max_volunteers'].'"' ?>><br>
                             <input type="hidden" name="id_commission" value=<?php echo '"'.$_GET['id_commission'].'"'?>>
                             <input type="hidden" name="id_event" value=<?php echo '"'.$event['id_event'].'"'?>>
-                            <input type="submit" name="create" value="Créer la tache">
+                            <input type="submit" name="create" value="Créer la tâche">
                         </form>
                         <?php if(isset($_GET['error']) && $_GET['error'] == 'date'){
                             echo "Attention, la atche se termine avant qu'elle ne commence";

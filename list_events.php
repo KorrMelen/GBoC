@@ -31,7 +31,7 @@
                         Date et heure de fin:<br>
                         <input type="date" name="end_date" required=""<?php if(isset($_GET['end_date'])) echo 'value="'.$_GET['end_date'].'"' ?>>
                         <input type="time" name="end_time" required=""<?php if(isset($_GET['end_time'])) echo 'value="'.$_GET['end_time'].'"' ?>><br>
-                        Lieux de l'événement (à la mission bretonne par défaut):<br>
+                        Lieu(x) de l'événement (à la mission bretonne par défaut):<br>
                         <input type="text" name="places"<?php if(isset($_GET['places'])) echo 'value="'.str_replace('+',' ',$_GET['places']).'"' ?> ><br>
                         Nombre de personne attendu:<br>
                         <input type="number" name="expected"<?php if(isset($_GET['expected'])) echo 'value="'.$_GET['expected'].'"' ?>><br>
@@ -79,7 +79,7 @@
                                     while($data_commission = $commissions->fetch()) echo ', '.$data_commission['name_commission']?>
                                 </td>
                                 <td><form method="post" action=<?php echo '"event_tasks.php?id='.$data_event['id_event'].'"';?>>
-                                    <input type="submit" value="Voire les tâches">
+                                    <input type="submit" value="Voir les tâches">
                                 </form></td>
                             </tr>
                         <?php } ?>
@@ -116,7 +116,7 @@
                                     while($data_commission = $commissions->fetch()) echo ', '.$data_commission['name_commission'];?>
                                 </td>
                                 <td><form method="post" action=<?php echo '"event_tasks.php?id='.$data_event['id_event'].'"';?>>
-                                    <input type="submit" value="Voire les tâches">
+                                    <input type="submit" value="Voir les tâches">
                                 </form></td>
                             </tr>
                         <?php } ?>

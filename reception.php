@@ -10,7 +10,7 @@
             <h1>Accueil du module de Gestion des Bénévoles Ou des Commissions</h1>
             <p>
                 Bienvenue sur le module de Gestion des bénévoles Ou des Commissions !<br />
-                Ce module est là pour permettre aux chargés de commissions de la mission bretonne de faire appel aux bénévoles afin d'aider lors d'événement et pouvoir communniquer avec eux directement.<br />
+                Ce module est là pour permettre aux chargés de commissions de la mission bretonne de faire appel aux bénévoles afin d'aider lors d'événements et pouvoir communiquer avec eux directement.<br />
             </p>
 
             <?php 

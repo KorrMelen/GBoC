@@ -81,7 +81,7 @@
                                 <td><form method="post" action="post_commission_volunteers.php">
                                     <input type="hidden" name="id_volunteer" value=<?php echo'"'.$data_volunteer['id_volunteer'].'"'?>>
                                     <input type="hidden" name="id_commission" value=<?php echo'"'.$data_commission['id_commission'].'"'?>>
-                                    <input type="submit" name="goodbye" value="Désincrire de la commission">
+                                    <input type="submit" name="goodbye" value="Désinscrire de la commission">
                                 </form></td>
                             </tr><?php
                         } ?>

@@ -25,7 +25,7 @@
                     <td>Description</td>
                     <td>Date et heure de début</td>
                     <td>Date et heure de fin</td>
-                    <td>Lieux</td>
+                    <td>Lieu(x)</td>
                 </tr>
                 <tr>
                     <td><?php echo $event['name_event']?></td>
@@ -49,7 +49,7 @@
                         <td>Description</td>
                         <td>Date et heure de début</td>
                         <td>Date et heure de fin</td>
-                        <td>Lieux</td>
+                        <td>Lieu</td>
                         <td>Nombre de bénévoles manquant</td>
                     </tr>
                     <?php

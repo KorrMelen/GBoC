@@ -30,7 +30,7 @@
                     <td>Description</td>
                     <td>Date et heure de début</td>
                     <td>Date et heure de fin</td>
-                    <td>Lieux</td>
+                    <td>Lieu(x)</td>
                 </tr>
                 <?php $event=$db->query('SELECT * FROM events WHERE id_event=\''.$task['event'].'\'');
                 $event = $event->fetch()?>
@@ -61,7 +61,7 @@
                                 <input type="time" name="end_time" required="" value=<?php echo '"'.date('H:i', strtotime($task['end_time_task'])).'"' ?>></td>
                         </tr>
                     </table>
-                    Lieux de la tache (à la mission bretonne par défaut):<br>
+                    Lieu de la tâche (à la mission bretonne par défaut):<br>
                     <input type="text" name="places" value=<?php echo '"'.$task['places_task'].'"' ?>><br>
                     Nombre de bénévole:<br>
                     <input type="number" name="max_volunteers" required="" value=<?php echo '"'.$task['max_volunteers'].'"' ?>><br>
@@ -76,7 +76,7 @@
                         <td>Description</td>
                         <td>Date et heure de début</td>
                         <td>Date et heure de fin</td>
-                        <td>Lieux</td>
+                        <td>Lieu</td>
                         <td>Nombre de bénévoles manquant</td>
                     </tr>
                     <tr>
@@ -104,7 +104,7 @@
                             <td><form method="POST" action="post_crud_task.php">
                                 <input type="hidden" name="id_volunteer" value=<?php echo '"'.$volunteer['id_volunteer'].'"'?>>
                                 <input type="hidden" name="id_task" value=<?php echo '"'.$task['id_task'].'"'?>>
-                                <input type="submit" name="unsubscribe" value="désincrire de la tache">
+                                <input type="submit" name="unsubscribe" value="désinscrire de la tâche">
                             </form></td>
                         <?php } ?>
                     </tr>

@@ -26,7 +26,7 @@
                                 <td>Description</td>
                                 <td>Date et heure de début</td>
                                 <td>Date et heure de fin</td>
-                                <td>Lieux</td>
+                                <td>Lieu(x)</td>
                                 <td>Nombre de personne attendu</td>
                                 <td>Commissions participantes</td>
                             </tr>
@@ -48,7 +48,7 @@
                                         while($data_commission = $commissions->fetch()) echo ', '.$data_commission['name_commission']?>
                                     </td>
                                     <td><form method="post" action=<?php echo '"commission_tasks.php?id_commission='.$_GET['id'].'&id_event='.$data_event['id_event'].'"' ?>>
-                                        <input type="submit" name="tasks" value="Voire les tâches">
+                                        <input type="submit" name="tasks" value="Voir les tâches">
                                     </form>
                                 </tr>
                             <?php } ?>
@@ -61,7 +61,7 @@
                                 <td>Description</td>
                                 <td>Date et heure de début</td>
                                 <td>Date et heure de fin</td>
-                                <td>Lieux</td>
+                                <td>Lieu(x)</td>
                                 <td>Nombre de personne attendu</td>
                                 <td>Commissions participantes</td>
                             </tr>
@@ -83,7 +83,7 @@
                                         while($data_commission = $commissions->fetch()) echo ', '.$data_commission['name_commission']?>
                                     </td>
                                     <td><form method="post" action=<?php echo '"commission_tasks.php?id_commission='.$_GET['id'].'&id_event='.$data_event['id_event'].'"' ?>>
-                                        <input type="submit" name="tasks" value="Voire les tâches">
+                                        <input type="submit" name="tasks" value="Voir les tâches">
                                     </form>
                                 </tr>
                             <?php } ?>

@@ -1,4 +1,6 @@
 <?php
+    include("script_mail.php");
+
     function uuid(){
         return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             mt_rand(0, 0xffff), mt_rand(0, 0xffff),
@@ -63,12 +65,20 @@
         $add_volunteer = $db->prepare('UPDATE commissions SET volunteers_waiting = array_append(volunteers_waiting, :uuid) WHERE id_commission=:id');
         $remove_volunteer = $db->prepare('UPDATE commissions SET volunteers_waiting = array_remove(volunteers_waiting, :uuid), volunteers = array_remove(volunteers, :uuid) WHERE id_commission=:id');
         while($data_commission = $commissions->fetch()){
-            if(isset($_POST[$data_commission['name_commision']])){
+            $moderators = $db->query('SELECT mail FROM volunteers, commissions WHERE id_commission =\''.$data_commission['id_commission'].'\' AND id_volunteer = ANY(moderators)');
+            $data_moderator = $moderators->fetch();
+            $mail = $data_moderator['mail'];
+            while ($data_moderator = $moderators->fetch()){
+                $mail .= ', '.$data_moderator['mail'];
+            }
+            
+            if(isset($_POST[$data_commission['name_commission']])){
                 if(!in_array($_SESSION['uuid'], explode(",",substr($data_commission['volunteers'],1,-1))) && !in_array($_SESSION['uuid'], explode(",",substr($data_commission['volunteers_waiting'],1,-1)))){
                     $add_volunteer->execute(array(
                         'uuid' =>$_SESSION['uuid'],
                         'id' => $data_commission['id_commission']
                     ));
+                    mail_volunteer_waiting($mail, strtoupper($_POST['name']).' '.ucwords ($_POST['surname']," -'_/"), $data_commission['name_commission']);
                 }
             }else{
                 if(in_array($_SESSION['uuid'], explode(",",substr($data_commission['volunteers'],1,-1))) || in_array($_SESSION['uuid'], explode(",",substr($data_commission['volunteers_waiting'],1,-1)))){
@@ -76,6 +86,8 @@
                         'uuid' =>$_SESSION['uuid'],
                         'id' => $data_commission['id_commission']
                     ));
+                    $remove_task = $db->query('UPDATE tasks SET registered_volunteers = array_append(registered_volunteers, \''.$_SESSION['uuid'].'\') WHERE comission = \''.$data_commission['id_commission'].'\'');
+                    mail_volunteer_quit($mail, strtoupper($_POST['name']).' '.ucwords ($_POST['surname']," -'_/"), $data_commission['name_commission']);
                 }
             }
         }

@@ -18,7 +18,7 @@
             	echo "<ul>";
             	while($data_commission = $commissions->fetch()){
             		if($_SESSION['role'] == "ADMIN" || in_array($_SESSION['uuid'], explode(",",substr($data_commission['moderators'],1,-1)))){
-            			echo "<li>Commisssion ".$data_commission['name_commission'];
+            			echo "<li>Commission ".$data_commission['name_commission'];
             			echo '<ul><li><a href="commission_volunteers.php?id='.$data_commission['id_commission'].'">Liste des bénévoles</a></li>';
             			echo "<li><a href='commission_events.php?id=".$data_commission['id_commission']."'>Liste des événements</a></li></ul></li>";
             		}

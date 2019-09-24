@@ -34,7 +34,7 @@
                         <td><form method="post" action="post_crud_task.php">
                             <input type="hidden" name="id_task" value=<?php echo'"'.$data_task['id_task'].'"'?>>
                             <input type="hidden" name="id_volunteer" value=<?php echo'"'.$_SESSION['uuid'].'"'?>>
-                            <input type="submit" name="unsubscribe" value="Se désincrire de la tache">
+                            <input type="submit" name="unsubscribe" value="Se désinscrire de la tache">
                         </form></td>
                     </tr>
                 <?php } ?>

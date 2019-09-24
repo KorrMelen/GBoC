@@ -61,15 +61,15 @@
 
                     <?php if($commission['active']){ ?>
                         <form method="post" action=<?php echo '"commission_volunteers.php?id='.$commission['id_commission'].'"'?>>
-                            <input type="submit" value="Voir la liste des bénévoles participant">
+                            <input type="submit" value="Voir la liste des bénévoles participants">
                         </form>
                         <form method="post" action=<?php echo '"commission_events.php?id='.$commission['id_commission'].'"'?>>
-                            <input type="submit" value="Voir la liste des taches créer">
+                            <input type="submit" value="Voir la liste des tâches crées">
                         </form>
                     <?php } ?>
                     <form method="post" action="post_crud_commission.php">
                         <input type="hidden" name="id_commission" value=<?php echo '"'.$commission['id_commission'].'"'?>>
-                        <input type="submit" <?php if($commission['active']) echo 'name="disable_commission" value="Désactiver commission"'; else echo 'name="reactivate_commission" value="Réactiver commission"'?>>
+                        <input type="submit" <?php if($commission['active']) echo 'name="disable_commission" value="Désactiver la commission"'; else echo 'name="reactivate_commission" value="Réactiver la commission"'?>>
                     </form>
                 </div>
             </body>
